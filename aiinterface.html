@@ -2,42 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Assistant</title>
-    <style>
-        :root {
-            --deep-brown: #3d2b1f; 
-            --warm-beige: #f5f5dc;
-            --gold-accent: #c5a059;
-        }
-
-        body { background: #faf7f2; font-family: 'Segoe UI', sans-serif; }
-
-        #chat-widget {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 350px; height: 480px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(15px);
-            border-radius: 20px; border: 1px solid rgba(61, 43, 31, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex; flex-direction: column; overflow: hidden;
-        }
-
-        #chat-header {
-            background: var(--deep-brown); color: var(--warm-beige);
-            padding: 15px; text-align: center; font-weight: bold;
-            border-bottom: 2px solid var(--gold-accent);
-        }
-
-        #chat-window { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-
-        .bubble { padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; max-width: 80%; }
-        .ai-msg { background: white; color: var(--deep-brown); align-self: flex-start; }
-        .user-msg { background: var(--deep-brown); color: var(--warm-beige); align-self: flex-end; }
-
-        .input-bar { padding: 15px; display: flex; gap: 5px; }
-        input { flex: 1; border: 1px solid #ccc; padding: 10px; border-radius: 10px; outline: none; }
-        button { background: var(--gold-accent); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="aiinterface.css">
 </head>
 <body>
     <header>
@@ -59,18 +27,18 @@
         </ul>
     </header>
 
-<body>
-
-<div id="chat-widget">
-    <div id="chat-header">AI Assistant</div>
-    <div id="chat-window">
-        <div class="bubble ai-msg">Hello! I'm ready to help. What's on your mind?</div>
-    </div>
-    <div class="input-bar">
-        <input type="text" id="userInput" placeholder="Ask me anything...">
-        <button onclick="askAI()">Ask</button>
-    </div>
-</div>
+    <main class="ai-page">
+        <div id="chat-widget">
+            <div id="chat-header">AI Assistant</div>
+            <div id="chat-window">
+                <div class="bubble ai-msg">Hello! I'm ready to help. What's on your mind?</div>
+            </div>
+            <div class="input-bar">
+                <input type="text" id="userInput" placeholder="Ask me anything...">
+                <button onclick="askAI()">Ask</button>
+            </div>
+        </div>
+    </main>
 
 <script>
     const HF_TOKEN = "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";
@@ -83,20 +51,20 @@
 
         if (!userText) return;
 
-        // Add User Message
-        chatWindow.innerHTML += <div class="bubble user-msg">${userText}</div>;
+        chatWindow.innerHTML += `<div class="bubble user-msg">${userText}</div>`;
         input.value = "";
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
-       
         const loadingId = "loading-" + Date.now();
-        chatWindow.innerHTML += <div class="bubble ai-msg" id="${loadingId}">...</div>;
+        chatWindow.innerHTML += `<div class="bubble ai-msg" id="${loadingId}">Thinking...</div>`;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        input.disabled = true;
 
         try {
             const response = await fetch(MODEL_URL, {
                 method: "POST",
                 headers: {
-                    "Authorization": Bearer ${HF_TOKEN},
+                    "Authorization": `Bearer ${HF_TOKEN}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ 
@@ -106,23 +74,30 @@
             });
 
             const result = await response.json();
-            
-           
             let aiText = "I'm having trouble thinking right now.";
-            if (Array.isArray(result) && result[0].generated_text) {
+
+            if (Array.isArray(result) && result[0]?.generated_text) {
                 aiText = result[0].generated_text.trim();
             } else if (result.error) {
-                aiText = "Model is still loading, please try again in a minute!";
+                aiText = "Model is still loading, please try again in a minute.";
             }
 
             document.getElementById(loadingId).innerText = aiText;
-
         } catch (error) {
-            document.getElementById(loadingId).innerText = "Connection error. Check your token!";
+            document.getElementById(loadingId).innerText = `Connection error: ${error.message}`;
+        } finally {
+            input.disabled = false;
+            input.focus();
+            chatWindow.scrollTop = chatWindow.scrollHeight;
         }
-        
-        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
+
+    document.getElementById('userInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            askAI();
+        }
+    });
 </script>
 
 </body>
