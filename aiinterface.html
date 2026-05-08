@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>skin 911</title>
-    <link rel="stylesheet" href="global.css">
+    <title>AI Assistant</title>
     <style>
         :root {
             --deep-brown: #3d2b1f; 
@@ -41,8 +40,7 @@
     </style>
 </head>
 <body>
-
- <header>
+    <header>
         <img src="log0.jpg" alt="Site logo" width="120" height="100">
         <button class="book-btn" onclick="window.location.href='booking.html'">Book Now</button>
         <input type="checkbox" id="menu-toggle" class="menu-toggle">
@@ -60,7 +58,7 @@
             <li><a href="aiinterface.html"><h6>AI Assistant</h6></a></li>
         </ul>
     </header>
-    
+
 <div id="chat-widget">
     <div id="chat-header">Assistant</div>
     <div id="chat-window" id="display">
@@ -78,34 +76,56 @@
 
     async function askAI() {
         const input = document.getElementById('userInput');
-        const window = document.getElementById('chat-window');
+        const chatWindow = document.getElementById('chat-window');
         const text = input.value.trim();
         if (!text) return;
 
-        window.innerHTML += <div class="bubble user-msg">${text}</div>;
+       
+        chatWindow.innerHTML += `<div class="bubble user-msg">${text}</div>`;
         input.value = "Thinking...";
+        input.disabled = true;
 
         try {
             const response = await fetch(MODEL_URL, {
                 method: "POST",
                 headers: {
-                    "Authorization": Bearer ${HF_TOKEN},
+                    "Authorization": `Bearer ${HF_TOKEN}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ inputs: text })
             });
 
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status}`);
+            }
+
             const result = await response.json();
             const aiResponse = result[0]?.generated_text || "I'm sorry, I couldn't process that.";
             
-            input.value = "";
-            window.innerHTML += <div class="bubble ai-msg">${aiResponse}</div>;
+            // Add AI response
+            chatWindow.innerHTML += `<div class="bubble ai-msg">${aiResponse}</div>`;
         } catch (error) {
-            window.innerHTML += <div class="bubble ai-msg">Error connecting to AI.</div>;
-            input.value = "";
+            chatWindow.innerHTML += `<div class="bubble ai-msg">Error: ${error.message}</div>`;
         }
-        window.scrollTop = window.scrollHeight;
+
+        input.value = "";
+        input.disabled = false;
+        input.focus();
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
+
+    // Allow Enter key to submit
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            askAI();
+        }
+    });
+
+    // Auto-scroll on new messages
+    const observer = new MutationObserver(() => {
+        document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
+    });
+    observer.observe(document.getElementById('chat-window'), { childList: true });
 </script>
 
 </body>
