@@ -59,10 +59,12 @@
         </ul>
     </header>
 
+<body>
+
 <div id="chat-widget">
-    <div id="chat-header">Assistant</div>
-    <div id="chat-window" id="display">
-        <div class="bubble ai-msg">Hello! How can I help you today?</div>
+    <div id="chat-header">AI Assistant</div>
+    <div id="chat-window">
+        <div class="bubble ai-msg">Hello! I'm ready to help. What's on your mind?</div>
     </div>
     <div class="input-bar">
         <input type="text" id="userInput" placeholder="Ask me anything...">
@@ -72,60 +74,55 @@
 
 <script>
     const HF_TOKEN = "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";
-    const MODEL_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-v0.1";
+    const MODEL_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1";
 
     async function askAI() {
         const input = document.getElementById('userInput');
         const chatWindow = document.getElementById('chat-window');
-        const text = input.value.trim();
-        if (!text) return;
+        const userText = input.value.trim();
+
+        if (!userText) return;
+
+        // Add User Message
+        chatWindow.innerHTML += <div class="bubble user-msg">${userText}</div>;
+        input.value = "";
+        chatWindow.scrollTop = chatWindow.scrollHeight;
 
        
-        chatWindow.innerHTML += `<div class="bubble user-msg">${text}</div>`;
-        input.value = "Thinking...";
-        input.disabled = true;
+        const loadingId = "loading-" + Date.now();
+        chatWindow.innerHTML += <div class="bubble ai-msg" id="${loadingId}">...</div>;
 
         try {
             const response = await fetch(MODEL_URL, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${HF_TOKEN}`,
+                    "Authorization": Bearer ${HF_TOKEN},
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ inputs: text })
+                body: JSON.stringify({ 
+                    inputs: userText,
+                    parameters: { max_new_tokens: 250, return_full_text: false }
+                })
             });
 
-            if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
+            const result = await response.json();
+            
+           
+            let aiText = "I'm having trouble thinking right now.";
+            if (Array.isArray(result) && result[0].generated_text) {
+                aiText = result[0].generated_text.trim();
+            } else if (result.error) {
+                aiText = "Model is still loading, please try again in a minute!";
             }
 
-            const result = await response.json();
-            const aiResponse = result[0]?.generated_text || "I'm sorry, I couldn't process that.";
-            
-            // Add AI response
-            chatWindow.innerHTML += `<div class="bubble ai-msg">${aiResponse}</div>`;
-        } catch (error) {
-            chatWindow.innerHTML += `<div class="bubble ai-msg">Error: ${error.message}</div>`;
-        }
+            document.getElementById(loadingId).innerText = aiText;
 
-        input.value = "";
-        input.disabled = false;
-        input.focus();
+        } catch (error) {
+            document.getElementById(loadingId).innerText = "Connection error. Check your token!";
+        }
+        
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-
-    // Allow Enter key to submit
-    document.getElementById('userInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            askAI();
-        }
-    });
-
-    // Auto-scroll on new messages
-    const observer = new MutationObserver(() => {
-        document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
-    });
-    observer.observe(document.getElementById('chat-window'), { childList: true });
 </script>
 
 </body>
