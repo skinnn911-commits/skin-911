@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Signup | Skin 911</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="membership-signup.css">
+</head>
+<body>
+    <header>
+       <img src="log0.jpg" alt="Site logo" width="120" height="100">
+        <button class="book-btn" onclick="window.location.href='booking.html'">Book Now</button>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger">☰</label>
+        <ul>
+            <li><a href="home.html"><h6>Home</h6></a></li>
+            <li><a href="services.html"><h6>Services</h6></a></li>
+            <li><a href="Careers.html"><h6>Careers</h6></a></li>
+            <li><a href="products.html"><h6>Products</h6></a></li>
+            <li><a href="blogs.html"><h6>Blog</h6></a></li>
+            <li><a href="about.html"><h6>Locations</h6></a></li>
+            <li><a href="membership.html"><h6>Membership</h6></a></li>
+            <li><a href="discount.html"><h6>Discounts</h6></a></li>
+            <li><a href="login.html"><h6>Testimonials</h6></a></li>
+        </ul>
+    </header>
+
+    <main class="signup-container">
+        <section class="signup-hero">
+            <h1>Choose Your Membership Plan</h1>
+            <p>Select the perfect plan for your wellness journey</p>
+        </section>
+
+        <section class="signup-form-wrapper">
+            <div class="form-container">
+                <div class="membership-options">
+                    <div class="option-card" onclick="selectPlan(this, 'Essential', '$49/month', 'Essential')">
+                        <h3>Essential</h3>
+                        <p class="price">$49/month</p>
+                        <ul class="features">
+                            <li>✓ 10% Off All Services</li>
+                            <li>✓ Early Access to Promos</li>
+                            <li>✓ Monthly Skincare Tips</li>
+                        </ul>
+                        <div class="select-indicator"></div>
+                    </div>
+
+                    <div class="option-card featured" onclick="selectPlan(this, 'Premium', '$89/month', 'Premium')">
+                        <div class="best-value">BEST VALUE</div>
+                        <h3>Premium</h3>
+                        <p class="price">$89/month</p>
+                        <ul class="features">
+                            <li>✓ 20% Off All Services</li>
+                            <li>✓ Priority Booking</li>
+                            <li>✓ Exclusive Member Events</li>
+                            <li>✓ Free Monthly Mini-Treatment</li>
+                        </ul>
+                        <div class="select-indicator"></div>
+                    </div>
+
+                    <div class="option-card" onclick="selectPlan(this, 'Luxe', '$149/month', 'Luxe')">
+                        <h3>Luxe</h3>
+                        <p class="price">$149/month</p>
+                        <ul class="features">
+                            <li>✓ 30% Off All Services</li>
+                            <li>✓ Unlimited Service Booking</li>
+                            <li>✓ VIP Event Invitations</li>
+                            <li>✓ Free Full-Size Product Quarterly</li>
+                            <li>✓ Customized Treatment Plans</li>
+                        </ul>
+                        <div class="select-indicator"></div>
+                    </div>
+                </div>
+
+                <div class="selected-plan-banner">
+                    <p>Selected plan: <strong><span id="selectedPlan">Premium</span></strong></p>
+                </div>
+
+               <form class="sign-up-form" id="sign-up-form" action="https://api.web3forms.com/submit" method="POST">
+
+              <input type="hidden" name="access_key" value="3b2cb14d-002c-41b0-bccf-5a71e49c5c72">
+              <input type="hidden" name="subject" value="New Membership Sign-Up">
+              <input type="hidden" name="reply_to" value="skinnn911@gmail.com">
+              <input type="hidden" name="redirect" value="https://skinnn911-commits.github.io/spa-skin911/membership-signup.html">
+
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+              <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+        </div>
+
+
+  <div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+  </div>
+
+ 
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" placeholder="Email Address" required>
+  </div>
+
+ 
+  <div class="form-group">
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+  </div>
+
+ 
+  <div class="form-group">
+    <label for="membership_type">Membership Type</label>
+    <input type="text" id="membership_type" name="membership_type" value="Premium" readonly>
+  </div>
+
+  
+  <div class="form-group">
+    <label for="billing_cycle">Billing Cycle</label>
+    <select id="billing_cycle" name="billing_cycle" required>
+      <option value="" disabled selected>Select Billing Cycle</option>
+      <option value="Monthly">Monthly</option>
+      <option value="Yearly">Yearly</option>
+    </select>
+  </div>
+
+ 
+  <div class="form-group">
+    <label>
+      <input type="checkbox" name="terms" value="Agreed" required>
+      I agree to the <a href="https://skinnn911-commits.github.io/spa-skin911/membership-signup.html" target="_blank">Terms and Conditions</a> and <a href="https://skinnn911-commits.github.io/spa-skin911/membership-signup.html" target="_blank">Privacy Policy</a>
+    </label>
+  </div>
+
+ 
+  <button type="submit" class="submit-btn">Complete Sign-Up</button>
+</form>
+            </div>
+        </section>
+    </main>
+
+     <footer>
+            <div class="footer-container">
+                
+                <div class="footer-column">
+                    <h3>Sign up for texts & emails</h3>
+                    <form class="footer-email-form">
+                        <input type="email" placeholder="Email" required />
+                        <button type="submit" aria-label="Subscribe">→</button>
+                    </form>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/skin911._?igsh=a3pnamYya2lzdG5n" aria-label="Instagram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjI4IiBjeT0iMTIiIHI9IjEuNSIgZmlsbD0id2hpdGUiLz48L3N2Zz4=" alt="Instagram" width="40" height="40" /></a>
+                    </div>
+                </div>
+
+               
+                <div class="footer-column">
+                    <h3>INFO</h3>
+                    <ul>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">Locations</a></li>
+                        <li><a href="Careers.html">Careers</a></li>
+                    </ul>
+                </div>
+
+                
+                <div class="footer-column">
+                    <h3>OUR HOURS</h3>
+                    <ul class="hours-list">
+                        <li><strong>Sunday:</strong> 10 AM - 6 PM</li>
+                        <li><strong>Monday:</strong> 10 AM - 6 PM</li>
+                        <li><strong>Tuesday:</strong> 10 AM - 6 PM</li>
+                        <li><strong>Wednesday:</strong> 9 AM - 8 PM</li>
+                        <li><strong>Thursday:</strong> 9 AM - 8 PM</li>
+                        <li><strong>Friday:</strong> 9 AM - 8 PM</li>
+                        <li><strong>Saturday:</strong> 9 AM - 6 PM</li>
+                    </ul>
+                </div>
+
+                
+                <div class="footer-column">
+                    <h3>Our Location</h3>
+                    <ul class="location-list">
+                        <li>Orange Walk: <span class="location-number">(501) 610-0000</span></li>
+                        <li>The Point, Placencia: <span class="location-number">(501) 610-1111</span></li>
+                        <li>North End, Hopkins: <span class="location-number">(501) 610-2222</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Skin 911. All rights reserved.</p>
+            </div>
+        </footer> 
+        
+    <script>
+        function selectPlan(element, planName, planPrice, planType) {
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+
+            const selectedPlanEl = document.getElementById('selectedPlan');
+            const membershipInput = document.getElementById('membership_type');
+
+            if (selectedPlanEl) selectedPlanEl.textContent = planName;
+            if (membershipInput) membershipInput.value = planName;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const premiumCard = document.querySelector('.option-card.featured');
+            const selectedPlanEl = document.getElementById('selectedPlan');
+            const membershipInput = document.getElementById('membership_type');
+            const defaultPlan = premiumCard?.querySelector('h3')?.textContent.trim() || 'Premium';
+
+            if (premiumCard) premiumCard.classList.add('selected');
+            if (membershipInput) membershipInput.value = defaultPlan;
+            if (selectedPlanEl) selectedPlanEl.textContent = defaultPlan;
+        });
+
+        const signupForm = document.getElementById('sign-up-form');
+        if (signupForm) {
+            signupForm.addEventListener('submit', function() {
+                const formData = {
+                    firstName: document.getElementById('first_name').value,
+                    lastName: document.getElementById('last_name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    membershipType: document.getElementById('membership_type').value,
+                    billingCycle: document.getElementById('billing_cycle').value
+                };
+
+                console.log('Signup Form Submitted:', formData);
+                alert('Thank you for signing up for ' + formData.membershipType + '! We\'ll contact you shortly at ' + formData.email + '.');
+            });
+        }
+    </script>
+</body>
+</html>

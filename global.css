@@ -1,0 +1,186 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --deep-brown: #3d2b1f;    
+  --gold: #c5a059;          
+  --light-gold: #e4d5b7;   
+  --white: #ffffff;
+  --text-color: #2c1e16;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--light-gold);
+  color: var(--text-color);
+  font-family: 'Georgia', serif;
+}
+
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: min(1200px, 100% - 2rem);
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: var(--deep-brown);
+  color: var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--gold);
+}
+
+header img {
+  height: 100px;
+  width: auto;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+header li {
+  margin: 0;
+}
+
+header a {
+  color: var(--gold);
+  font-weight: bold;
+  transition: color 0.3s;
+  text-transform: uppercase;
+}
+
+header a:hover {
+  color: var(--white);
+}
+
+header h6 {
+  margin: 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.book-btn {
+  background-color: var(--gold);
+  color: var(--deep-brown);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+  font-family: 'Georgia', serif;
+}
+
+.book-btn:hover {
+  background-color: var(--white);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gold);
+  padding: 0.5rem;
+  transition: color 0.3s;
+}
+
+.hamburger:hover {
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  header ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--deep-brown);
+    flex-direction: column;
+    padding: 1rem 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    gap: 0;
+  }
+
+  header li {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .menu-toggle:checked ~ .hamburger {
+    /* optional: change icon */
+  }
+
+  .menu-toggle:checked ~ ul {
+    display: flex;
+  }
+
+  .book-btn {
+    margin-top: 0;
+    order: -1; /* move button before hamburger if needed, but since flex, adjust */
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  header ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
